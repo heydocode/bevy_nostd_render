@@ -5,7 +5,7 @@ use bevy_app::{Last, Plugin};
 use bevy_ecs::{
     component::Component,
     query::With,
-    system::{NonSendMut, Query, ResMut, Resource},
+    system::{Query, ResMut, Resource},
 };
 use embedded_graphics::{
     pixelcolor::Rgb555,
@@ -13,7 +13,7 @@ use embedded_graphics::{
     primitives::{PrimitiveStyle, Rectangle},
 };
 use embedded_graphics_simulator::SimulatorDisplay;
-use std_env::{Simulator, SimulatorPlugin};
+use std_env::SimulatorPlugin;
 
 extern crate embedded_graphics;
 
@@ -71,13 +71,9 @@ where
 fn render(
     display_parameters: Option<ResMut<Display<SimulatorDisplay<Rgb555>>>>,
     entities: Query<&Position, With<DrawableEntity>>,
-    window_parameters: Option<NonSendMut<Simulator>>,
 ) {
     let mut display_parameters = display_parameters
         .unwrap_or_else(|| panic!("BEVY_NOSTD_RENDER>> Panic! Please init DisplayParameters!"));
-    let mut window_parameters = window_parameters.unwrap_or_else(|| {
-        panic!("BEVY_NOSTD_RENDER>> Panic! Please init SimulatorParameters.window!")
-    });
     let dimensions = display_parameters.display.bounding_box();
     let (width, heigh) = (dimensions.size.width as i32, dimensions.size.height as i32);
 
@@ -116,6 +112,5 @@ fn render(
             );
         }
     }
-    window_parameters.window.update(&display_parameters.display);
 }
 
