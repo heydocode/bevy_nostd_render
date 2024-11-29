@@ -1,7 +1,7 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 use crate::embedded_graphics::Drawable;
-use bevy_app::{First, Plugin};
+use bevy_app::{Last, Plugin};
 use bevy_ecs::{
     component::Component,
     query::With,
@@ -30,7 +30,7 @@ impl Plugin for BevyRenderPlugin {
             }
         });
         app.add_plugins(SimulatorPlugin);
-        app.add_systems(First, render);
+        app.add_systems(Last, render);
     }
 }
 
@@ -64,9 +64,7 @@ where
     T: DrawTarget,
 {
     pub fn new(display: T) -> Self {
-        Self {
-            display
-        }
+        Self { display }
     }
 }
 
@@ -100,7 +98,7 @@ fn render(
 
         // Draw a rectangle.
         let style = PrimitiveStyle::with_fill(Rgb555::BLACK);
-        let status = Rectangle::new(Point::new(entity.x, entity.y), Size::new(100, 100))
+        let status = Rectangle::new(Point::new(entity.x, entity.y), Size::new(2, 2))
             .into_styled(style)
             .draw(&mut display_parameters.display);
 
@@ -118,7 +116,6 @@ fn render(
             );
         }
     }
-    window_parameters
-        .window
-        .update(&mut display_parameters.display);
+    window_parameters.window.update(&display_parameters.display);
 }
+

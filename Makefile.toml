@@ -1,0 +1,24 @@
+[tasks.clippy]
+command = "cargo"
+args = ["clippy", "--workspace", "--all-targets", "--all-features", "--", "-Dwarnings"]
+dependencies = ["build"]
+
+[tasks.build]
+command = "cargo"
+args = ["build"]
+dependencies = ["format"]
+
+[tasks.format]
+install_crate = "rustfmt"
+command = "cargo"
+args = ["fmt", "--", "--emit=files"]
+dependencies = ["check"]
+
+[tasks.check]
+command = "cargo"
+args = ["check"]
+
+[tasks.pre-commit]
+dependencies = [
+    "clippy",
+]

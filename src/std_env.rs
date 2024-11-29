@@ -9,7 +9,7 @@ impl Plugin for SimulatorPlugin {
         let window_title = app
             .world()
             .get_resource::<WindowTitle>()
-            .unwrap_or_else(|| &WindowTitle {
+            .unwrap_or(&WindowTitle {
                 title: "DEFAULT // CONFIGURE BY SETTING WindowTitle RESOURCE",
             })
             .title;
